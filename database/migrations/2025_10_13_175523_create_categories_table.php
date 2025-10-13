@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
+            $table->id()->comment('Unique category ID');
+            $table->string("name")->unique()->comment("Category name");
+            $table->string("color")->default("#000000")->comment("Hexadecimal color code");
             $table->timestamps();
         });
     }
