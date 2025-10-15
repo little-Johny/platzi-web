@@ -14,7 +14,7 @@
                 </span>
             </p>
 
-            <div>&hearts;</div>
+            <livewire:like-button :likeable="$comment"/>
         </li>
         @endforeach
 

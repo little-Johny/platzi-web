@@ -10,9 +10,9 @@ class Answer extends Model
     /** @use HasFactory<\Database\Factories\AnswerFactory> */
     use HasFactory;
 
-    public $fillable = [
+    protected $fillable = [
         'content',
-        'user_id'        
+        'user_id'
     ];
 
     public function user()
@@ -23,5 +23,20 @@ class Answer extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function isLiked()
+    {
+        return $this->likes()->where('user_id', 1)->exists();
+    }
+
+    public function like()
+    {
+        $this->likes()->create(['user_id' => 1]);
     }
 }

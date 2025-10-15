@@ -29,4 +29,24 @@ class Question extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function isLiked()
+    {
+        return $this->likes()->where('user_id', 1)->exists();
+    }
+
+    public function like()
+    {
+        $this->likes()->create(['user_id' => 1]);
+    }
+
+    public function unlike()
+    {
+        $this->likes()->where('user_id', 1)->delete();
+    }
 }
