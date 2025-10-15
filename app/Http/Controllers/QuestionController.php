@@ -17,4 +17,11 @@ class QuestionController extends Controller
             ["question" => $question]
         );
     }
+
+    public function destroy(Question $question)
+    {
+        $question->delete();
+
+        return redirect()->route('home');
+    }
 }
