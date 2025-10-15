@@ -14,7 +14,7 @@
                 </span>
             </p>
 
-            <livewire:like-button :likeable="$comment"/>
+            <livewire:like-button :likeable="$comment" wire:key="comment-heart-{{ $comment->id }}"/>
         </li>
         @endforeach
 

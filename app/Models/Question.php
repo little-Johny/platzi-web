@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasLike;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
-    use HasFactory;
+    use HasFactory, HasLike;
 
     public function category()
     {
@@ -30,23 +31,5 @@ class Question extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function isLiked()
-    {
-        return $this->likes()->where('user_id', 1)->exists();
-    }
-
-    public function like()
-    {
-        $this->likes()->create(['user_id' => 1]);
-    }
-
-    public function unlike()
-    {
-        $this->likes()->where('user_id', 1)->delete();
-    }
+    
 }
