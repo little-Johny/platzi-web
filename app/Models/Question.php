@@ -31,5 +31,25 @@ class Question extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    
+    protected static function booted()
+    {
+        static::deleting(function (self $question) {
+            $question->likes()->delete();
+            
+            $question->comments()->get()->each(function ($comment) {
+                $comment->likes()->delete();
+                $comment->delete();
+            });
+
+            $question->answers()->get()->each(function ($answer) {
+                $answer->likes()->delete();
+
+                $answer->comments()->get()->each(function ($comment) {
+                    $comment->likes()->delete();
+
+                    $comment->delete();
+                });
+            });
+        });
+    }
 }
