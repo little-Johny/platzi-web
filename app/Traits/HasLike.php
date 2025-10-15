@@ -14,6 +14,10 @@ trait HasLike
 
   public function isLiked()
   {
+    if ($this->relationLoaded('likes')) {
+      return  $this->likes->isNotEmpty();
+    }
+
     return $this->likes()->where('user_id', 1)->exists();
   }
 
