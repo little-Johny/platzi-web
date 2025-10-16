@@ -31,10 +31,12 @@ class QuestionController extends Controller
 
     public function store(StoreQuestionRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = Auth::id();
+        
 
-        $question = Question::create($data);
+        $question = Question::create([
+            'user_id' => Auth::id(),
+            ...$request->validated(),
+        ]);
 
         return redirect()->route('questions.show', $question);
     }
