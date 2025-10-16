@@ -14,7 +14,7 @@ class AnswerController extends Controller
 
         $question->answers()->create([
             'content' => $request->input('content'), //
-            'user_id' => 1,
+            'user_id' => auth()->id(),
         ]);
 
         return back();

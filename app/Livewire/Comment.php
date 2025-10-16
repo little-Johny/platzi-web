@@ -24,7 +24,7 @@ class Comment extends Component
 
         $this->commentable->comments()->create([
             'content' => $this->content,
-            'user_id' => 1, // Reemplazar por el id del usuario de la sesion
+            'user_id' => auth()->id(), // Reemplazar por el id del usuario de la sesion
         ]);
 
         // Reiniciar variables

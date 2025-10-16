@@ -18,16 +18,16 @@ trait HasLike
       return  $this->likes->isNotEmpty();
     }
 
-    return $this->likes()->where('user_id', 1)->exists();
+    return $this->likes()->where('user_id', auth()->id())->exists();
   }
 
   public function like()
   {
-    $this->likes()->create(['user_id' => 1]);
+    $this->likes()->create(['user_id' => auth()->id()]);
   }
 
   public function unlike()
   {
-    $this->likes()->where('user_id', 1)->delete();
+    $this->likes()->where('user_id', auth()->id())->delete();
   }
 }

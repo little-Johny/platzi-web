@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,11 @@
     <title>Platzi-web</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body>
-<div class="h-screen flex flex-col">
+    <div class="h-screen flex flex-col">
         <div class="px-4">
-            <x-forum.navbar/>
+            <x-forum.navbar />
         </div>
 
         <div class="relative h-full flex items-center justify-center">
@@ -31,14 +32,17 @@
                     <p class="my-8 text-lg font-medium text-gray-500 sm:text-xl">Es un espacio para compartir, aprender y crecer en el mundo de la programación. Únete a nuestra comunidad, participa en discusiones y aprende de otros profesionales.</p>
                     <div class="flex items-center justify-center gap-6">
                         <a href="{{ route('questions.create') }}" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">Preguntar</a>
-                        <a href="#" class="text-sm font-semibold text-gray-900">Login &rarr;</a>
+                        @guest
+                        <a href="{{  route('login') }}" class="text-sm font-semibold text-gray-900">Login &rarr;</a>
+                        @endguest
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="mx-auto max-w-4xl px-4 mb-8">
-    {{ $slot }}
+        {{ $slot }}
     </div>
 </body>
+
 </html>

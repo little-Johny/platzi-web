@@ -7,8 +7,6 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
-use App\Models\Question;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -16,16 +14,16 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 
 Route::get('questions', [QuestionController::class,'index'])->name('questions.index');
 
-Route::get('questions/create', [QuestionController::class, 'create'])->name('questions.create');
-Route::post('questions', [QuestionController::class, 'store'])->name('questions.store');
+Route::get('questions/create', [QuestionController::class, 'create'])->name('questions.create')->middleware('auth');
+Route::post('questions', [QuestionController::class, 'store'])->name('questions.store')->middleware('auth');
 
-Route::get('question/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
-Route::put('question/{question}', [QuestionController::class, 'update'])->name('questions.update');
+Route::get('question/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit')->middleware('auth');
+Route::put('question/{question}', [QuestionController::class, 'update'])->name('questions.update')->middleware('auth');
 
 Route::get('questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
-Route::delete('questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+Route::delete('questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy')->middleware('auth');
 
-Route::post('/answers/{question}', [AnswerController::class, 'store'])->name('answers.store');
+Route::post('/answers/{question}', [AnswerController::class, 'store'])->name('answers.store')->middleware('auth');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

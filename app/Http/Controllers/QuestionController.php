@@ -73,7 +73,7 @@ class QuestionController extends Controller
 
     public function show(Question $question)
     {
-        $userId = 1;
+        $userId = auth()->id();
         $question->load([
             'user',
             'category',
