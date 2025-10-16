@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Category;
 use App\Models\Question;
-use Illuminate\Http\Request;
+use App\Support\QuestionShowLoader;
 
 class QuestionController extends Controller
 {
@@ -26,12 +28,10 @@ class QuestionController extends Controller
         return view('questions.create', ['categories' => $categories]);
     }
 
-    public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
         $request->validate([
-            'category_id'   => 'required|exists:categories,id',
-            'title'         => 'required|string|max:255',
-            'description'   => 'required|string'
+            
         ]);
 
         $question = Question::create([
@@ -54,12 +54,10 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function update(Request $request, Question $question)
+    public function update(UpdateQuestionRequest $request, Question $question)
     {
         $request->validate([
-            'category_id'   => 'required|exists:categories,id',
-            'title'         => 'required|string|max:255',
-            'description'   => 'required|string'
+            
         ]);
 
         $question->update([
@@ -71,26 +69,9 @@ class QuestionController extends Controller
         return redirect()->route('questions.show', $question);
     }
 
-    public function show(Question $question)
-    {
-        $userId = auth()->id();
-        $question->load([
-            'user',
-            'category',
-            'answers' => fn($query) =>  $query->with([
-                'user',
-                'likes'  => fn($query) => $query->where('user_id', $userId),
-                'comments' => fn($query) => $query->with([
-                    'user',
-                    'likes' => fn($query) => $query->where('user_id', $userId),
-                ]),
-            ]),
-            'comments' => fn($query) => $query->with([
-                'user',
-                'likes' => fn($query) => $query->where('user_id', $userId)
-            ]),
-            'likes' => fn($query) => $query->where('user_id', $userId)
-        ]);
+    public function show(Question $question, QuestionShowLoader $loader)
+    {   
+        $loader->load($question);
 
         return view(
             'questions.show',
