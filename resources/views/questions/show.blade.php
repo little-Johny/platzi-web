@@ -16,17 +16,20 @@
 
                 @auth
                 <div class="flex items-center gap-2">
-                    <a href=" {{  route('questions.edit', $question) }}" class="text-xs font-semibold hover:underline">
-                        Edit
-                    </a>
-
-                    <form action="{{  route('questions.destroy', $question) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar esta pregunta?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="rounded-md bg-red-600 hover:bg-red-500 px-2 py-1 text-xs font-semibold text-white cursor-pointer">
-                            Eliminar
-                        </button>
-                    </form>
+                    @can('update',$question)
+                        <a href=" {{  route('questions.edit', $question) }}" class="text-xs font-semibold hover:underline">
+                            Edit
+                        </a>
+                    @endcan
+                    @can('delete',$question)
+                        <form action="{{  route('questions.destroy', $question) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar esta pregunta?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="rounded-md bg-red-600 hover:bg-red-500 px-2 py-1 text-xs font-semibold text-white cursor-pointer">
+                                Eliminar
+                            </button>
+                        </form>
+                    @endcan
                 </div>
                 @endauth
             </div>
