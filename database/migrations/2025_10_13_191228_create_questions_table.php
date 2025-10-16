@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId("user_id")->comment('ID of the user who created this question')->constrained("users")->onDelete("cascade");
 
             $table->string("title")->comment('Question title');
+            $table->string('slug')->unique();
             $table->text("description")->comment('Detailed description of the question');
 
             $table->timestamps();

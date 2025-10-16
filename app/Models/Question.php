@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\HasLike;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Italofantone\Sluggable\Sluggable;
 
 class Question extends Model
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
-    use HasFactory, HasLike;
+    use HasFactory, HasLike, Sluggable;
 
     protected $fillable = [
         'user_id',
